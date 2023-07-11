@@ -1,4 +1,0 @@
-{
-  "port": 8080,
-  "mongoUri": "mongodb+srv://alexandr:GRJqimFhtOrrnD9C@cluster0.crmbc3c.mongodb.net/wallet-db?retryWrites=true&w=majority"
-}
