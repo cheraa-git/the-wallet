@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
-import * as jwt from 'jsonwebtoken'
 import { Token } from '../models/Token'
+import { JwtPayload, sign, verify } from 'jsonwebtoken'
 
 
 dotenv.config()
@@ -10,9 +10,9 @@ const REFRESH_SECRET = process.env.REFRESH_SECRET || ''
 
 class TokenService {
   generate(userId: string) {
-    const accessToken = jwt.sign({ _id: userId }, TOKEN_SECRET, { expiresIn: '1h' })
-    const refreshToken = jwt.sign({ _id: userId }, REFRESH_SECRET)
-    return { accessToken, refreshToken, expiresIn: 3600 }
+    const accessToken = sign({ _id: userId }, TOKEN_SECRET, { expiresIn: '1h' })
+    const refreshToken = sign({ _id: userId }, REFRESH_SECRET)
+    return { accessToken, refreshToken, expiresIn: 3600, userId }
   }
 
   async save(userId: string, refreshToken: string) {
@@ -28,6 +28,23 @@ class TokenService {
     const tokens = this.generate(userId)
     await this.save(userId, tokens.refreshToken)
     return tokens
+  }
+
+  validateRefresh(refreshToken: string) {
+    try {
+      const payload = verify(refreshToken, REFRESH_SECRET) as JwtPayload
+      return { _id: payload._id }
+    } catch (error) {
+      return null
+    }
+  }
+
+  async findToken(refreshToken: string) {
+    try {
+      return await Token.findOne({ refreshToken })
+    } catch (error) {
+      return null
+    }
   }
 
 }

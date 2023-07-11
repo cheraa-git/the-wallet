@@ -19,7 +19,7 @@ class AuthController {
       const tokens = await tokenService.generateAndSave(newUser._id.toString())
       res.send({ tokens, user: Dto.user(newUser) })
     } catch (error) {
-      res.send({ message: errorMessages.UNEXPECTED_ERROR })
+      res.send({ message: errorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
@@ -34,15 +34,23 @@ class AuthController {
       const tokens = await tokenService.generateAndSave(existingUser._id.toString())
       res.send({ tokens, user: Dto.user(existingUser) })
     } catch (error) {
-
+      res.send({ message: errorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
   refreshToken = async (req: Request, res: Response) => {
     try {
+      const { refreshToken } = req.body
+      const data = tokenService.validateRefresh(refreshToken)
+      const dbToken = await tokenService.findToken(refreshToken)
 
+      if (!data || !dbToken || data._id !== dbToken?.userId?.toString()) {
+        return res.status(401).json({ message: errorMessages.UNAUTHORIZED })
+      }
+      const tokens = await tokenService.generateAndSave(data._id)
+      res.status(200).send({ ...tokens })
     } catch (error) {
-
+      res.send({ message: errorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 }
