@@ -1,13 +1,21 @@
-import { model, Schema } from 'mongoose'
+import { HydratedDocument, model, Schema } from 'mongoose'
 
-const schema = new Schema({
+interface UserModel {
+  name: string
+  surname: string
+  email: string
+  password: string
+  avatar?: string
+}
+
+const schema = {
   name: { type: String, required: true },
   surname: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true},
+  password: { type: String, required: true },
   avatar: String
-}, {
-  timestamps: true
-})
+}
 
-export const User = model('User', schema)
+
+export const User = model('User', new Schema(schema, { timestamps: true }))
+export type UserModelType = HydratedDocument<UserModel>
