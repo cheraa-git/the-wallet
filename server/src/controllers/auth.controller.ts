@@ -31,7 +31,8 @@ class AuthController {
       if (!existingUser) return res.status(400).send({ message: errorMessages.EMAIl_NOT_FOUND })
       const isPasswordEqual = await bcrypt.compare(password, existingUser.password)
       if (!isPasswordEqual) return res.status(400).send({ message: errorMessages.INVALID_PASSWORD })
-      const tokens = tokenService.generateAndSave(existingUser._id.toString())
+      const tokens = await tokenService.generateAndSave(existingUser._id.toString())
+      res.send({ tokens, user: Dto.user(existingUser) })
     } catch (error) {
 
     }
