@@ -9,6 +9,11 @@
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "paths": {
+      "wallet-common": [
+        "../wallet-common/"
+      ]
+    }
   }
 }
