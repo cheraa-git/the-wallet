@@ -39,6 +39,15 @@ class TokenService {
     }
   }
 
+  validateAccess(accessToken: string) {
+    try {
+      const payload = verify(accessToken, TOKEN_SECRET) as JwtPayload
+      return { _id: payload._id }
+    } catch (error) {
+      return null
+    }
+  }
+
   async findToken(refreshToken: string) {
     try {
       return await Token.findOne({ refreshToken })
