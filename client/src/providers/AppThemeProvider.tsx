@@ -23,7 +23,7 @@ export const AppThemeProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ...palette
     },
     typography: {
-      fontFamily: `'Nunito', sans-serif;'`,
+      fontFamily: '\'Nunito\', sans-serif;',
       fontWeightRegular: '300',
       fontSize: 17,
       h1: {

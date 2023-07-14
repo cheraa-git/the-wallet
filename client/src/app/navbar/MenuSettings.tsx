@@ -27,16 +27,16 @@ export const MenuSettings: FC = () => {
     <ListItem>
       <Grid container spacing={1} width="300px">
         <Grid item xs={3} alignSelf="center">
-          <Typography fontWeight="bold" fontSize="small">theme</Typography>
+          <Typography fontWeight="bold" fontSize="small">тема</Typography>
         </Grid>
         <Grid item xs={9} display="flex">
           <Button {...getThemeBtnProps('dark')}>
             <DarkModeIcon fontSize="small" sx={{ mr: 0.5 }}/>
-            Dark
+            Темная
           </Button>
           <Button {...getThemeBtnProps('light')}>
             <LightModeIcon fontSize="small"/>
-            Light
+            Светлая
           </Button>
         </Grid>
       </Grid>
