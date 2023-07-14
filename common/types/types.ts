@@ -5,3 +5,15 @@ export interface IUser {
   surname: string
   avatar?: string
 }
+
+export interface Tokens {
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
+  userId: string
+}
+
+export interface ErrorResponse {
+  message: string
+  data?: any
+}
