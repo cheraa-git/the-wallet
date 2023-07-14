@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 import { SnackbarProvider } from 'notistack'
+import { AppThemeProvider } from './providers/AppThemeProvider'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,9 +16,11 @@ root.render(
   // <React.StrictMode>
   <BrowserRouter>
     <Provider store={store}>
-      <SnackbarProvider autoHideDuration={3000}>
-        <App/>
-      </SnackbarProvider>
+      <AppThemeProvider>
+        <SnackbarProvider autoHideDuration={3000}>
+          <App/>
+        </SnackbarProvider>
+      </AppThemeProvider>
     </Provider>
   </BrowserRouter>
   // </React.StrictMode>
