@@ -11,3 +11,93 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+    --border-color: rgba(138, 138, 138, 0.32);
+    --blue: #3874CB;
+    --bg-gray: rgba(133, 133, 133, 0.08)
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+.blue {
+    color: var(--blue);
+}
+
+.bg-gray {
+    background: var(--bg-gray) !important;
+}
+
+.self-center {
+    align-self: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.border {
+    border: 1px solid var(--border-color);
+}
+
+.border-red {
+    border-color: rgb(239 68 68);
+}
+
+.border-b {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.border-t {
+    border-top: 1px solid var(--border-color);
+}
+
+.border-x {
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.h-min {
+    height: min-content;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.w-min {
+    width: min-content;
+}
+
+.red {
+    color: rgb(248 113 113);
+}
+
+.bg-red {
+    background-color: rgb(254 226 226);
+}
+
+.rounded {
+    border-radius: 0.25rem;
+}

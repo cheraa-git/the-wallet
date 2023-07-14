@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { PaletteMode } from '@mui/material'
-import { RootState, useAppSelector } from '../store'
 
 export interface AppState {
   theme: PaletteMode
+  loading: boolean
 }
 
 const initialState: AppState = {
-  theme: localStorage.getItem('APP_THEME') as PaletteMode || 'dark'
+  theme: localStorage.getItem('APP_THEME') as PaletteMode || 'dark',
+  loading: false
 }
 
 export const appSlice = createSlice({
@@ -25,10 +26,4 @@ export const { setTheme } = appSlice.actions
 
 export const AppReducer = appSlice.reducer
 
-
-export const useApp = () => {
-  const state = useAppSelector((state: RootState) => state.app)
-  const isDark = state.theme === 'dark'
-  return {...state, isDark}
-}
 
