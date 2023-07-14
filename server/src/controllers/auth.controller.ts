@@ -1,15 +1,26 @@
-import { Request, Response } from 'express'
 import { User } from '../models/User'
 import { ErrorMessages } from '../../../common/errorMessages'
 import bcrypt from 'bcrypt'
 import { tokenService } from '../services/token.service'
 import { validationHandler } from '../utils/validation'
 import Dto from '../utils/dto'
+import { ControllerHandler } from '../types/types'
+import {
+  AutologinBody,
+  AutologinResponse,
+  LoginBody,
+  LoginResponse,
+  RefreshTokenBody,
+  RefreshTokenResponse,
+  SignupBody,
+  SignupResponse
+} from '../../../common/types/request/authRequestTypes'
 
 class AuthController {
 
-  signUp = async (req: Request, res: Response) => {
+  signup: ControllerHandler<SignupBody, SignupResponse> = async (req, res) => {
     try {
+      console.log(req.body)
       if (validationHandler(req, res)) return
       const { email, password, name, surname } = req.body
       const existingUser = await User.findOne({ email })
@@ -20,10 +31,11 @@ class AuthController {
       res.send({ tokens, user: Dto.user(newUser) })
     } catch (error) {
       res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      console.log('error', error)
     }
   }
 
-  signIn = async (req: Request, res: Response) => {
+  login: ControllerHandler<LoginBody, LoginResponse> = async (req, res) => {
     try {
       if (validationHandler(req, res)) return
       const { email, password } = req.body
@@ -38,7 +50,23 @@ class AuthController {
     }
   }
 
-  refreshToken = async (req: Request, res: Response) => {
+  autologin: ControllerHandler<AutologinBody, AutologinResponse> = async (req, res) => {
+    try {
+      const currentUserId = req.user?._id
+      if (!currentUserId) {
+        return res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
+      }
+      const user = await User.findById(currentUserId)
+      if (!user) {
+        return res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
+      }
+      res.send(Dto.user(user))
+    } catch (error) {
+      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+    }
+  }
+
+  refreshToken: ControllerHandler<RefreshTokenBody, RefreshTokenResponse> = async (req, res) => {
     try {
       const { refreshToken } = req.body
       const data = tokenService.validateRefresh(refreshToken)
@@ -48,7 +76,7 @@ class AuthController {
         return res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
       }
       const tokens = await tokenService.generateAndSave(data._id)
-      res.status(200).send({ ...tokens })
+      res.status(200).send(tokens)
     } catch (error) {
       res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }

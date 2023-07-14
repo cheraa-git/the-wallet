@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
 import { tokenService } from '../services/token.service'
 import { ErrorMessages } from '../../../common/errorMessages'
+import { ControllerHandler } from '../types/types'
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const authMiddleware: ControllerHandler = (req, res, next) => {
   if (req.method === 'OPTIONS') {
     return next()
   }
@@ -13,11 +13,11 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     }
     const data = tokenService.validateAccess(token)
     if (!data || !data._id) {
-      return res.status(401).json({ message: 'Unauthorized' })
+      return res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
     }
-    req.body.currentUserId = data._id
+    req.user = data
     next()
   } catch (error) {
-    return res.status(401).json({ message: 'Unauthorized' })
+    return res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
   }
 }
