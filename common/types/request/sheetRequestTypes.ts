@@ -6,7 +6,9 @@ export type GetSheetsResponse = ISheet[]
 export type CreateSheetBody = Omit<ISheet, '_id' | 'createdAt' | 'updatedAt' | 'userId'>
 export type CreateSheetResponse = ISheet
 
-export type UpdateSheetBody = Partial<ISheet>
+export interface UpdateSheetBody extends Partial<ISheet> {
+  _id: string
+}
 export type UpdateSheetResponse = ISheet
 
 export type RemoveSheetBody = {}

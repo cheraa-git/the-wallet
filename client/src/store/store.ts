@@ -2,13 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { AppReducer } from './app/slice'
 import { AuthReducer } from './auth/slice'
+import { SheetReducer } from './sheet/slice'
 
 export const store = configureStore({
   reducer: {
     app: AppReducer,
-    auth: AuthReducer
+    auth: AuthReducer,
+    sheet: SheetReducer
   }
-
 })
 
 export type RootState = ReturnType<typeof store.getState>
