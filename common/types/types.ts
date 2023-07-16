@@ -17,3 +17,14 @@ export interface ErrorResponse {
   message: string
   data?: any
 }
+
+export interface ISheet {
+  _id: string
+  userId: string
+  title: string
+  type: string
+  description?: string,
+  icon?: string
+  createdAt: string
+  updatedAt: string
+}

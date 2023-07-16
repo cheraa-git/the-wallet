@@ -1,10 +1,13 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
+import { authMiddleware } from '../middleware/auth.middleware'
+import { sheetController } from '../controllers/sheet.controller'
 
 export const sheetRouter = Router({ mergeParams: true })
 
-sheetRouter.get('/', async (req: Request, res: Response) => {
-  res.send('sheet router is working')
-})
+sheetRouter.get('/', authMiddleware, sheetController.getAll)
+sheetRouter.post('/', authMiddleware, sheetController.create)
+sheetRouter.patch('/:sheetId', authMiddleware, sheetController.update)
+sheetRouter.delete('/:sheetId', authMiddleware, sheetController.remove)
 
 
 
