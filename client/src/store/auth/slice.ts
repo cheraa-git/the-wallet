@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../../../common/types/types'
 import { useAppSelector } from '../store'
+import { localStorageService } from '../../services/localStorageService'
 
 export interface AuthState {
   currentUser: IUser | null
@@ -21,17 +22,21 @@ export const authSlice = createSlice({
     setAuthLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.loading = payload
     },
-    setCurrentUser: (state, {payload}: PayloadAction<IUser>) => {
+    setCurrentUser: (state, { payload }: PayloadAction<IUser>) => {
       state.currentUser = payload
     },
-    setAuthError: (state, {payload}: PayloadAction<string | null>) => {
+    setAuthError: (state, { payload }: PayloadAction<string | null>) => {
       state.error = payload
+    },
+    logout: (state) => {
+      state.currentUser = null
+      localStorageService.removeAuthData()
     }
   }
 })
 
 
-export const { setAuthLoading, setCurrentUser, setAuthError } = authSlice.actions
+export const { setAuthLoading, setCurrentUser, setAuthError, logout } = authSlice.actions
 
 export const AuthReducer = authSlice.reducer
 

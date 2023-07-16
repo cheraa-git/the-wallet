@@ -8,13 +8,15 @@ import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { logout, useAuthState } from '../../store/auth/slice'
+import { useAppDispatch } from '../../store/store'
 
 
 export const NavBarMenu: FC = () => {
+  const dispatch = useAppDispatch()
+  const { isAuth, currentUser } = useAuthState()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
-  const currentUser = { nickname: 'Александр', id: '1234sdf' }
-  const isAuth = true
 
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -26,7 +28,7 @@ export const NavBarMenu: FC = () => {
 
   const logoutHandler = () => {
     handleClose()
-    // logout()
+    dispatch(logout())
   }
 
 
@@ -42,10 +44,10 @@ export const NavBarMenu: FC = () => {
       >
 
         <Box hidden={!isAuth}>
-          <Link to={`/user/${currentUser.id}`} onClick={handleClose}>
+          <Link to={`/user/${currentUser?._id}`} onClick={handleClose}>
             <MenuItem>
               <AccountCircleIcon color="primary"/>
-              <Typography ml={2} className="capitalize">{currentUser.nickname}</Typography>
+              <Typography ml={2} className="capitalize">{currentUser?.name}</Typography>
             </MenuItem>
           </Link>
 
@@ -64,13 +66,13 @@ export const NavBarMenu: FC = () => {
         <Box hidden={isAuth}>
           <Link to="/auth/login">
             <MenuItem onClick={handleClose}>
-              <Typography>Login</Typography>
+              <Typography>Вход</Typography>
               <LoginIcon sx={{ ml: 4 }} color="primary" fontSize="small"/>
             </MenuItem>
           </Link>
           <Link to="/auth/signup">
             <MenuItem onClick={handleClose}>
-              <Typography>Sign up</Typography>
+              <Typography>Регистрация</Typography>
               <PersonAddIcon sx={{ ml: 2 }} color="primary" fontSize="small"/>
             </MenuItem>
           </Link>
