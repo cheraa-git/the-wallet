@@ -7,6 +7,10 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use(async (config) => {
+  if (config.headers['ignore-interceptors']) {
+    config.headers['ignore-interceptors'] = undefined
+    return config
+  }
   const expiresDate = localStorageService.getTokenExpiresDate() || 0
   const refreshToken = localStorageService.getRefreshToken()
   if (refreshToken && +expiresDate < Date.now()) {

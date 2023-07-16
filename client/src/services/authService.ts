@@ -19,7 +19,7 @@ export const authService = {
     return data
   },
   refresh: async (payload: RefreshTokenBody): Promise<RefreshTokenResponse> => {
-    const { data } = await api.post('/auth/login', payload)
+    const { data } = await api.post('/auth/refresh_token', payload, { headers: { 'ignore-interceptors': 'ignore' } })
     return data
   },
   autologin: async (): Promise<AutologinResponse> => {
