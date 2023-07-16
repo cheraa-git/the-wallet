@@ -41,8 +41,7 @@ export const login = (payload: LoginBody) => async (dispatch: AppDispatch) => {
 export const autologin = () => async (dispatch: AppDispatch) => {
   try {
     const accessToken = localStorageService.getAccessToken()
-    if (!accessToken) return
-    dispatch(setAuthLoading(true))
+    if (!accessToken) return dispatch(setAuthLoading(false))
     const currentUser = await authService.autologin()
     dispatch(setCurrentUser(currentUser))
     dispatch(setAuthLoading(false))

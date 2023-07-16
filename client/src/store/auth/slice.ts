@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IUser } from '../../../../common/types/types'
+import { useAppSelector } from '../store'
 
 export interface AuthState {
   currentUser: IUser | null
@@ -9,7 +10,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   currentUser: null,
-  loading: false,
+  loading: true,
   error: null
 }
 
@@ -33,3 +34,10 @@ export const authSlice = createSlice({
 export const { setAuthLoading, setCurrentUser, setAuthError } = authSlice.actions
 
 export const AuthReducer = authSlice.reducer
+
+
+export const useAuthState = () => {
+  const state = useAppSelector(state => state.auth)
+  const isAuth = Boolean(state.currentUser?._id && state.currentUser.email)
+  return { ...state, isAuth }
+}

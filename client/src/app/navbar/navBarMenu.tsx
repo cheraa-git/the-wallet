@@ -1,7 +1,7 @@
 import { FC, MouseEvent, useState } from 'react'
 import { Box, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
-import { MenuSettings } from './MenuSettings'
+import { MenuSettings } from './menuSettings'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AddIcon from '@mui/icons-material/Add'
 import LoginIcon from '@mui/icons-material/Login'
