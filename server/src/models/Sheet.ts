@@ -5,7 +5,6 @@ const schema = new Schema({
   title: { type: String, required: true },
   type: { type: String, required: true },
   description: String,
-  icon: String
 }, {
   timestamps: true
 })

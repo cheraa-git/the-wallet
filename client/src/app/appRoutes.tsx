@@ -17,6 +17,7 @@ import { TransactionLayout } from './transaction/transactionLayout'
 import { RouteObjectWithProtected, useRoutesWithProtected } from '../hooks/useRoutesWithProtected'
 import { useAuthState } from '../store/auth/slice'
 import { LoaderLine } from '../common/Loader/loaderLine'
+import { CreateSheetPage } from './sheet/createSheetPage'
 
 export const AppRoutes: FC = () => {
   const location = useLocation()
@@ -51,6 +52,7 @@ export const AppRoutes: FC = () => {
       protected: { navigate: '/auth/login', accessibility: isAuth },
       children: [
         { path: '', element: <SheetsPage/> },
+        {path: 'new', element: <CreateSheetPage/>},
         { path: ':sheetId', element: <SheetPage/> },
         { path: ':sheetId/edit', element: <EditSheetPage/> },
         { path: ':sheetId/*', element: <Navigate to=""/> }

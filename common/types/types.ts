@@ -18,13 +18,14 @@ export interface ErrorResponse {
   data?: any
 }
 
+export type SheetType = 'Карта' | 'Наличные' | 'Кредитная карта' | 'Вклад'
+
 export interface ISheet {
   _id: string
   userId: string
   title: string
-  type: string
+  type: SheetType
   description?: string,
-  icon?: string
   createdAt: string
   updatedAt: string
 }
