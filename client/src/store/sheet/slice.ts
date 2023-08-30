@@ -27,7 +27,7 @@ export const sheetSlice = createSlice({
     addSheet: (state, { payload }: PayloadAction<ISheet>) => {
       state.sheets = [payload, ...state.sheets]
     },
-    updateSheet: (state, { payload }: PayloadAction<ISheet>) => {
+    updateStateSheet: (state, { payload }: PayloadAction<ISheet>) => {
       state.sheets = state.sheets.map(sheet => sheet._id === payload._id ? payload : sheet)
     },
     removeStateSheet: (state, { payload }: PayloadAction<string>) => {
@@ -40,7 +40,7 @@ export const sheetSlice = createSlice({
 })
 
 
-export const { setSheetLoading, setSheets, removeStateSheet, updateSheet, addSheet, setSheetError } = sheetSlice.actions
+export const { setSheetLoading, setSheets, removeStateSheet, updateStateSheet, addSheet, setSheetError } = sheetSlice.actions
 
 export const SheetReducer = sheetSlice.reducer
 

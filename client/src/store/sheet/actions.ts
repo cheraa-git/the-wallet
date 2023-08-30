@@ -1,5 +1,5 @@
 import { AppDispatch } from '../store'
-import { addSheet, removeStateSheet, setSheetError, setSheetLoading, setSheets } from './slice'
+import { addSheet, removeStateSheet, setSheetError, setSheetLoading, setSheets, updateStateSheet } from './slice'
 import { sheetService } from '../../services/sheetService'
 import { CreateSheetBody, UpdateSheetBody } from '../../../../common/types/request/sheetRequestTypes'
 
@@ -39,7 +39,7 @@ export const updateSheet = (sheetData: UpdateSheetBody) => async (dispatch: AppD
   try {
     dispatch(setSheetLoading(true))
     const updatedSheet = await sheetService.update(sheetData)
-    dispatch(updateSheet(updatedSheet))
+    dispatch(updateStateSheet(updatedSheet))
     dispatch(setSheetLoading(false))
   } catch (error) {
     errorHandler(error, dispatch)

@@ -3,6 +3,12 @@ import { SheetType } from '../../../../common/types/types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Box, Button, MenuItem, TextField, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
+import { CreateSheetBody } from '../../../../common/types/request/sheetRequestTypes'
+
+interface SheetFormProps {
+  onSubmit: SubmitHandler<Inputs>
+  defaultValues?: CreateSheetBody
+}
 
 interface Inputs {
   title: string
@@ -10,9 +16,9 @@ interface Inputs {
   description: string,
 }
 
-export const SheetForm: FC<{ onSubmit: SubmitHandler<Inputs> }> = ({ onSubmit }) => {
+export const SheetForm: FC<SheetFormProps> = ({ onSubmit, defaultValues }) => {
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>({ defaultValues })
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)}>

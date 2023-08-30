@@ -6,7 +6,9 @@ import { useAppDispatch } from '../../store/store'
 import { useSheetState } from '../../store/sheet/slice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Spinner } from '../../common/Loader/spinner'
-import { removeSheet } from '../../store/sheet/actions'
+import { removeSheet, updateSheet } from '../../store/sheet/actions'
+import { SheetForm } from './sheetForm'
+import { CreateSheetBody, UpdateSheetBody } from '../../../../common/types/request/sheetRequestTypes'
 
 
 export const EditSheetPage: FC = () => {
@@ -31,6 +33,13 @@ export const EditSheetPage: FC = () => {
     })
   }
 
+  const handleSubmit = (data: CreateSheetBody) => {
+    if (!sheet) return
+    const payload: UpdateSheetBody = { ...sheet, ...data }
+    dispatch(updateSheet(payload))
+      .then(() => navigate(`/sheets/${payload._id}`))
+  }
+
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
   return (
     <Container maxWidth="md">
@@ -41,6 +50,7 @@ export const EditSheetPage: FC = () => {
             <IconButton color="error" onClick={handleRemove}><DeleteIcon/></IconButton>
           </Tooltip>
         </Box>
+        <SheetForm onSubmit={handleSubmit} defaultValues={sheet}/>
       </Paper>
     </Container>
   )
