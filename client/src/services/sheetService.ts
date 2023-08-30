@@ -20,12 +20,12 @@ export const sheetService = {
   },
 
   update: async (sheet: UpdateSheetBody): Promise<UpdateSheetResponse> => {
-    const { data } = await api.patch(`/sheet${sheet._id}`, sheet)
+    const { data } = await api.patch(`/sheet/${sheet._id}`, sheet)
     return data
   },
 
   remove: async (sheetId: string): Promise<RemoveSheetResponse> => {
-    const { data } = await api.delete(`/sheet${sheetId}`)
+    const { data } = await api.delete(`/sheet/${sheetId}`)
     return data
   }
 }

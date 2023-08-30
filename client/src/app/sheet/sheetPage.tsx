@@ -1,11 +1,11 @@
 import { FC, useEffect } from 'react'
 import { Box, Card, CardContent, IconButton, Typography } from '@mui/material'
 import { useAppSelector } from '../../store/store'
-import './styles.css'
 import { Spinner } from '../../common/Loader/spinner'
 import { formatDateRelative } from '../../utils/format'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
+import { SheetMenu } from './sheetMenu'
 
 
 export const SheetPage: FC = () => {
@@ -23,7 +23,7 @@ export const SheetPage: FC = () => {
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
   if (!sheet) return <></>
   return (
-    <Card>
+    <Card sx={{ my: 2 }}>
       <Box display="flex" justifyContent="space-between" mx={2}>
         <Box display="flex">
           <NavLink to="/sheets">
@@ -33,9 +33,12 @@ export const SheetPage: FC = () => {
             {sheet.title}
           </Typography>
         </Box>
-        <Typography variant="body2" alignSelf="center" color="text.secondary">
-          Список создан {formatDateRelative(sheet.createdAt)}
-        </Typography>
+        <Box display="flex">
+          <Typography variant="body2" alignSelf="center" color="text.secondary">
+            Список создан {formatDateRelative(sheet.createdAt)}
+          </Typography>
+          <SheetMenu/>
+        </Box>
       </Box>
 
       <CardContent sx={{ ml: 6 }}>

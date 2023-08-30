@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ISheet } from '../../../../common/types/types'
+import { useAppSelector } from '../store'
 
 export interface SheetState {
   sheets: ISheet[]
@@ -29,7 +30,7 @@ export const sheetSlice = createSlice({
     updateSheet: (state, { payload }: PayloadAction<ISheet>) => {
       state.sheets = state.sheets.map(sheet => sheet._id === payload._id ? payload : sheet)
     },
-    removeSheet: (state, { payload }: PayloadAction<string>) => {
+    removeStateSheet: (state, { payload }: PayloadAction<string>) => {
       state.sheets = state.sheets.filter(sheet => sheet._id !== payload)
     },
     setSheetError: (state, { payload }: PayloadAction<string | null>) => {
@@ -39,7 +40,12 @@ export const sheetSlice = createSlice({
 })
 
 
-export const { setSheetLoading, setSheets, removeSheet, updateSheet, addSheet, setSheetError } = sheetSlice.actions
+export const { setSheetLoading, setSheets, removeStateSheet, updateSheet, addSheet, setSheetError } = sheetSlice.actions
 
 export const SheetReducer = sheetSlice.reducer
+
+export const useSheetState = () => {
+  const state = useAppSelector(state => state.sheet)
+  return { ...state }
+}
 
