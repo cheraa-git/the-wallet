@@ -18,7 +18,7 @@ class UserController {
         res.status(401).json({ message: ErrorMessages.UNAUTHORIZED })
       }
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 }

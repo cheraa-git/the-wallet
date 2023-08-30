@@ -20,7 +20,6 @@ class AuthController {
 
   signup: ControllerHandler<SignupBody, SignupResponse> = async (req, res) => {
     try {
-      console.log(req.body)
       if (validationHandler(req, res)) return
       const { email, password, name, surname } = req.body
       const existingUser = await User.findOne({ email })
@@ -30,12 +29,13 @@ class AuthController {
       const tokens = await tokenService.generateAndSave(newUser._id.toString())
       res.send({ tokens, user: Dto.user(newUser) })
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
       console.log('error', error)
     }
   }
 
   login: ControllerHandler<LoginBody, LoginResponse> = async (req, res) => {
+    console.log('asdf')
     try {
       if (validationHandler(req, res)) return
       const { email, password } = req.body
@@ -46,7 +46,7 @@ class AuthController {
       const tokens = await tokenService.generateAndSave(existingUser._id.toString())
       res.send({ tokens, user: Dto.user(existingUser) })
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
@@ -62,7 +62,7 @@ class AuthController {
       }
       res.send(Dto.user(user))
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
@@ -78,7 +78,7 @@ class AuthController {
       const tokens = await tokenService.generateAndSave(data._id)
       res.status(200).send(tokens)
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 }

@@ -30,7 +30,7 @@ class SheetController {
       const newSheet: ISheet = (await Sheet.create(sheet)).toJSON()
       res.send(newSheet)
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
@@ -40,12 +40,12 @@ class SheetController {
       const userId = req.user?._id
       const updatingSheet = await Sheet.findById(sheetId)
       if (updatingSheet?.userId?.toString() !== userId) {
-        return res.send({ message: ErrorMessages.UNAUTHORIZED })
+        return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
       }
       const updatedSheet = await Sheet.findByIdAndUpdate(sheetId, req.body, { new: true })
       res.send(updatedSheet?.toJSON())
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 
@@ -55,12 +55,12 @@ class SheetController {
       const userId = req.user?._id
       const removingSheet = await Sheet.findById(sheetId)
       if (!removingSheet || removingSheet?.userId?.toString() !== userId) {
-        return res.send({ message: ErrorMessages.UNAUTHORIZED })
+        return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
       }
       await removingSheet.deleteOne()
       res.send({ _id: sheetId })
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 }

@@ -49,6 +49,10 @@ img {
     text-transform: capitalize;
 }
 
+.capitalize-first::first-letter {
+    text-transform: uppercase;
+}
+
 .border {
     border: 1px solid var(--border-color);
 }
@@ -127,4 +131,16 @@ img {
 
 .link:hover:before {
     width: 100%;
+}
+
+.amount_green {
+    color: #3db739;
+}
+
+.amount_red {
+    color: #d25858;
+}
+
+.bold {
+    font-weight: bold !important;
 }

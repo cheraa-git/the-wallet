@@ -1,0 +1,48 @@
+.sheet-card {
+    display: flex;
+    padding: 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    justify-content: space-between;
+}
+
+.sheet-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sheet-card-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.sheet-card-transaction {
+    display: flex;
+    align-items: center;
+}
+
+.sheet-card-transaction-amount {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.sheet-card-transaction-count {
+    font-size: 16px;
+    background-color: #ff6b6b;
+    color: white;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.sheet-card-date {
+    font-size: 14px;
+    text-align: end;
+    color: #888;
+}
+

@@ -11,11 +11,11 @@ import {
 
 export const authService = {
   signup: async (payload: SignupBody): Promise<SignupResponse> => {
-    const { data } = await api.post('/auth/signup', payload)
+    const { data } = await api.post('/auth/signup', payload, { headers: { 'ignore-interceptors': 'ignore' } })
     return data
   },
   login: async (payload: LoginBody): Promise<LoginResponse> => {
-    const { data } = await api.post('/auth/login', payload)
+    const { data } = await api.post('/auth/login', payload, { headers: { 'ignore-interceptors': 'ignore' } })
     return data
   },
   refresh: async (payload: RefreshTokenBody): Promise<RefreshTokenResponse> => {
@@ -23,7 +23,7 @@ export const authService = {
     return data
   },
   autologin: async (): Promise<AutologinResponse> => {
-    const { data } = await api.post('/auth/autologin')
+    const { data } = await api.post('/auth/autologin', { headers: { 'ignore-interceptors': 'ignore' } })
     return data
   }
 }
