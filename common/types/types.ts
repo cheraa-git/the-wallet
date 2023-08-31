@@ -18,7 +18,7 @@ export interface ErrorResponse {
   data?: any
 }
 
-export type SheetType = 'Карта' | 'Наличные' | 'Кредитная карта' | 'Вклад'
+export type SheetType = 'card' | 'cash' | 'creditCard' | 'deposit'
 
 export interface ISheet {
   _id: string
@@ -28,4 +28,14 @@ export interface ISheet {
   description?: string,
   createdAt: string
   updatedAt: string
+}
+
+export type CategoryType = 'both' | 'income' | 'expense'
+
+export interface ICategory {
+  _id: string
+  sheetId: string
+  name: string
+  type: CategoryType
+  icon?: string
 }

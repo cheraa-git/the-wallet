@@ -1,24 +1,32 @@
 import { FC, useEffect } from 'react'
 import { Box, Card, CardContent, IconButton, Typography } from '@mui/material'
-import { useAppSelector } from '../../store/store'
+import { useAppDispatch, useAppSelector } from '../../store/store'
 import { Spinner } from '../../common/Loader/spinner'
 import { formatDateRelative } from '../../utils/format'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { SheetMenu } from './sheetMenu'
+import { loadCategories } from '../../store/category/actions'
 
 
 export const SheetPage: FC = () => {
+  const dispatch = useAppDispatch()
   const { sheetId } = useParams()
   const navigate = useNavigate()
   const { sheets, loading } = useAppSelector(state => state.sheet)
-  const sheet = sheets.find(s => s._id === sheetId)
+  const sheet = sheets?.find(s => s._id === sheetId)
+
+  useEffect(() => {
+    if (sheetId) {
+      dispatch(loadCategories(sheetId))
+    }
+  }, [sheetId, dispatch])
 
   useEffect(() => {
     if (!loading && !sheet) {
       navigate('/sheets')
     }
-  }, [sheet, loading])
+  }, [sheet, loading, navigate])
 
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
   if (!sheet) return <></>

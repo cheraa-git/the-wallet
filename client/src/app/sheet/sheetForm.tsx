@@ -29,12 +29,13 @@ export const SheetForm: FC<SheetFormProps> = ({ onSubmit, defaultValues }) => {
 
       <Box mb={2}>
         <Typography>Название</Typography>
-        <TextField fullWidth size="small" select defaultValue="Наличные" {...register('type', { required: true })}
+        <TextField fullWidth size="small" select
+                   defaultValue={defaultValues?.type || 'cash'} {...register('type', { required: true })}
                    error={!!errors.type}>
-          <MenuItem value="Карта">Карта</MenuItem>
-          <MenuItem value="Наличные">Наличные</MenuItem>
-          <MenuItem value="Кредитная карта">Кредитная карта</MenuItem>
-          <MenuItem value="Вклад">Вклад</MenuItem>
+          <MenuItem value="card">Карта</MenuItem>
+          <MenuItem value="cash">Наличные</MenuItem>
+          <MenuItem value="creditCard">Кредитная карта</MenuItem>
+          <MenuItem value="deposit">Вклад</MenuItem>
         </TextField>
       </Box>
 
@@ -44,7 +45,7 @@ export const SheetForm: FC<SheetFormProps> = ({ onSubmit, defaultValues }) => {
                    error={!!errors.description}/>
       </Box>
       <Box display="flex" justifyContent="space-between">
-        <Button color="inherit" onClick={() => navigate('/sheets')}>Отмена</Button>
+        <Button color="inherit" onClick={() => navigate(-1)}>Отмена</Button>
         <Button type="submit">Сохранить</Button>
       </Box>
     </Box>
