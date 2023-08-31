@@ -20,7 +20,7 @@ class SheetController {
       const sheets = await Sheet.find({ userId }) as ISheet[]
       res.send(sheets)
     } catch (error) {
-      res.send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
   }
 

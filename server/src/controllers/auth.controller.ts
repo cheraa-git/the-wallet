@@ -35,7 +35,6 @@ class AuthController {
   }
 
   login: ControllerHandler<LoginBody, LoginResponse> = async (req, res) => {
-    console.log('asdf')
     try {
       if (validationHandler(req, res)) return
       const { email, password } = req.body
