@@ -4,13 +4,15 @@ import { AppReducer } from './app/slice'
 import { AuthReducer } from './auth/slice'
 import { SheetReducer } from './sheet/slice'
 import { CategoryReducer } from './category/slice'
+import { TransactionReducer } from './transaction/slice'
 
 export const store = configureStore({
   reducer: {
     app: AppReducer,
     auth: AuthReducer,
     sheet: SheetReducer,
-    category: CategoryReducer
+    category: CategoryReducer,
+    transaction: TransactionReducer
   }
 })
 

@@ -37,5 +37,17 @@ export interface ICategory {
   sheetId: string
   name: string
   type: CategoryType
-  icon?: string
+}
+
+export type TransactionType = 'income' | 'expense'
+
+export interface ITransaction {
+  _id: string
+  sheetId: string
+  categoryId: string
+  type: TransactionType
+  amount: number
+  description?: string
+  createdAt: string
+  updatedAt: string
 }

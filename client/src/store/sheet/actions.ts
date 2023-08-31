@@ -13,7 +13,7 @@ const errorHandler = (error: any, dispatch: AppDispatch) => {
   dispatch(setSheetLoading(false))
 }
 
-export const getSheets = () => async (dispatch: AppDispatch) => {
+export const loadSheets = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(setSheetLoading(true))
     const sheets = await sheetService.get()
