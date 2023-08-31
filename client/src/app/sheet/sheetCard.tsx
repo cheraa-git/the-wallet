@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import './styles.css'
 import { ISheet } from '../../../../common/types/types'
 import { AmountStyled } from '../../common/amountStyled'
-import { Box, Typography } from '@mui/material'
+import { Box, Chip, Typography } from '@mui/material'
+import { SheetTypeLabel } from '../../constants/constants'
 
 export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
   const totalAmount = 45323
@@ -12,7 +13,10 @@ export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
       <Link to={`/sheets/${sheet._id}`}>
         <div className="sheet-card">
           <Box justifyContent="center" display="flex" flexDirection="column">
-            <Typography className="capitalize-first">{sheet.title}</Typography>
+            <Box display="flex">
+              <Typography className="capitalize-first" mr={2} alignSelf="center">{sheet.title}</Typography>
+              <Chip label={SheetTypeLabel[sheet.type]} size="small"/>
+            </Box>
             <AmountStyled amount={totalAmount} bold/>
           </Box>
           <div>

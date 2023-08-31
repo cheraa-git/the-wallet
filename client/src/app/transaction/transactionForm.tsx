@@ -24,6 +24,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultVal
   const { categories, selectCategoryByName, selectCategoryById } = useCategoryState()
   const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
   const defaultCategory = selectCategoryById(defaultValues?.categoryId || '')
+  const filteredCategories = categories.filter(c => c.type === type || c.type === 'both')
 
   useEffect(() => {
     let payload = {}
@@ -62,7 +63,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultVal
           clearOnEscape
           noOptionsText="Категория не найдена"
           autoComplete
-          options={categories}
+          options={filteredCategories}
           groupBy={(option: ICategory) => option.name[0].toUpperCase()}
           getOptionLabel={(option: ICategory) => option.name}
           isOptionEqualToValue={(option, value) => option._id === value._id}

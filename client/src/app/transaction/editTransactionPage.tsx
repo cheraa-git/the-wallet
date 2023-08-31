@@ -71,6 +71,7 @@ export const EditTransactionPage: FC = () => {
           type={transaction?.type || 'expense'}
           defaultValues={transaction}
           sheetId={transaction.sheetId}
+          onCancel={()=> navigate(`/sheets/${transaction.sheetId}`)}
         />
       </Paper>
     </Container>

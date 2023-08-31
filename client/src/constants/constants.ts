@@ -9,3 +9,10 @@ export enum CategoryTypeColor {
   'income' = 'green',
   'both' = 'primary'
 }
+
+export enum SheetTypeLabel {
+  card='Карта',
+  cash='Наличные',
+  creditCard='Кредитная карта',
+  deposit='Вклад',
+}

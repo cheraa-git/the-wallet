@@ -23,10 +23,10 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction }) => {
           </Typography>
           <Typography variant="h6" fontWeight="normal" color={transaction.type === 'expense' ? 'error' : 'green'}
                       width="max-content" alignSelf="center" mr={0}>
-            {transaction.type === 'expense' ? '-' : '+'} {transaction.amount}
+            {transaction.type === 'expense' ? '-' : '+'} {transaction.amount.toLocaleString()}
           </Typography>
           <Typography variant="caption" color="text.secondary" width="max-content" lineHeight={1.2}>
-            {formatDateRelative(transaction.updatedAt)}
+            {formatDateRelative(transaction.createdAt)}
           </Typography>
         </Box>
 
