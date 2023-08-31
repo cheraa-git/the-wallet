@@ -1,11 +1,10 @@
 import { FC, useEffect } from 'react'
-import { Box, Container, IconButton, Paper, Tooltip, Typography } from '@mui/material'
+import { Box, CircularProgress, Container, IconButton, Paper, Tooltip, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useConfirm } from '../../hooks/useConfirm'
 import { useAppDispatch } from '../../store/store'
 import { useSheetState } from '../../store/sheet/slice'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Spinner } from '../../common/Loader/spinner'
 import { removeSheet, updateSheet } from '../../store/sheet/actions'
 import { SheetForm } from './sheetForm'
 import { CreateSheetBody, UpdateSheetBody } from '../../../../common/types/request/sheetRequestTypes'
@@ -23,7 +22,7 @@ export const EditSheetPage: FC = () => {
     if (!loading && !sheet) {
       navigate('/sheets')
     }
-  }, [sheet, loading])
+  }, [sheet, loading, navigate])
 
   const handleRemove = () => {
     if (!sheet) return
@@ -40,7 +39,7 @@ export const EditSheetPage: FC = () => {
       .then(() => navigate(`/sheets/${payload._id}`))
   }
 
-  if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
+  if (loading) return <Box display="flex" justifyContent="center" mt={5}><CircularProgress/></Box>
   return (
     <Container maxWidth="md">
       <Paper sx={{ p: 3 }}>

@@ -3,6 +3,7 @@ import { ErrorMessages } from '../../../common/errorMessages'
 import {
   CreateTransactionBody,
   CreateTransactionResponse,
+  GetOneTransactionResponse,
   GetTransactionsResponse,
   RemoveTransactionResponse,
   UpdateTransactionBody,
@@ -12,7 +13,6 @@ import { Transaction } from '../models/Transaction'
 import { Sheet } from '../models/Sheet'
 import { ITransaction } from '../../../common/types/types'
 import { validationHandler } from '../utils/validation'
-import { Category } from '../models/Category'
 
 class TransactionController {
   getBySheetId: ControllerHandler<{}, GetTransactionsResponse> = async (req, res) => {
@@ -21,10 +21,20 @@ class TransactionController {
       if (!sheetId) return res.status(400).send({ message: ErrorMessages.INVALID_DATA })
 
       const ownerUserId = (await Sheet.findOne({ _id: sheetId }))?.userId?.toJSON()
-      if (req.user?._id !== ownerUserId) return res.status(500).send({ message: ErrorMessages.UNAUTHORIZED })
+      if (req.user?._id !== ownerUserId) return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
 
       const transactions = await Transaction.find({ sheetId }) as ITransaction[]
       res.send(transactions)
+    } catch (error) {
+      res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
+    }
+  }
+
+  getOneById: ControllerHandler<{}, GetOneTransactionResponse> = async (req, res) => {
+    try {
+      const transactionId = req.params.transactionId
+      const transaction = (await Transaction.findOne({ _id: transactionId }))?.toJSON() as ITransaction
+      res.send(transaction)
     } catch (error) {
       res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
@@ -57,7 +67,7 @@ class TransactionController {
     try {
       if (validationHandler(req, res)) return
       const transactionId = req.params.transactionId
-      const removingTransaction = await Category.findOne({ _id: transactionId })
+      const removingTransaction = await Transaction.findOne({ _id: transactionId })
       const ownerUserId = (await Sheet.findOne({ _id: removingTransaction?.sheetId }))?.userId?.toJSON()
       if (!removingTransaction || req.user?._id !== ownerUserId) {
         return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })

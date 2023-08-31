@@ -9,10 +9,10 @@ import { createTransaction } from '../../store/transaction/actions'
 interface AddTransactionDialogProps {
   type: TransactionType | null
   onClose: () => void
-
+  sheetId: string
 }
 
-export const AddTransactionDialog: FC<AddTransactionDialogProps> = ({ type, onClose }) => {
+export const AddTransactionDialog: FC<AddTransactionDialogProps> = ({ type, onClose, sheetId }) => {
   const dispatch = useAppDispatch()
 
   const handleSubmit = (data: CreateTransactionBody) => {
@@ -23,7 +23,7 @@ export const AddTransactionDialog: FC<AddTransactionDialogProps> = ({ type, onCl
   return (
     <Dialog open={!!type} onClose={onClose} maxWidth="sm" fullWidth>
       <Paper sx={{ p: 3, height: '70vh' }}>
-        <TransactionForm onSubmit={handleSubmit} type={type || 'expense'}/>
+        <TransactionForm onSubmit={handleSubmit} type={type || 'expense'} sheetId={sheetId}/>
       </Paper>
     </Dialog>
   )

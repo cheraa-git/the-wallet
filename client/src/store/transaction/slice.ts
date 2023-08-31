@@ -10,7 +10,7 @@ export interface TransactionState {
 
 const initialState: TransactionState = {
   transactions: [],
-  loading: true,
+  loading: false,
   error: null
 }
 

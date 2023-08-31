@@ -19,8 +19,9 @@ transactionRouter.post('/', [
 transactionRouter.patch('/', [
   authMiddleware,
   check('_id', ErrorMessages.INVALID_DATA).exists()
-])
+], transactionController.update)
 
 transactionRouter.delete('/:transactionId', authMiddleware, transactionController.remove)
+transactionRouter.get('/:transactionId', authMiddleware, transactionController.getOneById)
 
 

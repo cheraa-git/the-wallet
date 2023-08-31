@@ -1,15 +1,16 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { CreateTransactionBody } from '../../../../common/types/request/transactionRequestTypes'
 import { Autocomplete, Box, Button, InputLabelProps, TextField, Typography } from '@mui/material'
 import { ICategory, TransactionType } from '../../../../common/types/types'
-import { useParams } from 'react-router-dom'
 import { useCategoryState } from '../../store/category/slice'
 
 interface TransactionFormProps {
   onSubmit: SubmitHandler<CreateTransactionBody>
-  type: TransactionType
+  type: TransactionType,
+  sheetId: string
   defaultValues?: Partial<CreateTransactionBody>
+  onCancel?: () => void
 }
 
 interface Inputs {
@@ -19,14 +20,25 @@ interface Inputs {
   description: string
 }
 
-export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultValues, type }) => {
-  const { sheetId } = useParams()
-  const { categories, selectCategoryByName } = useCategoryState()
-  const { register, handleSubmit, formState: { errors } } = useForm<Inputs>()
+export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultValues, type, onCancel, sheetId }) => {
+  const { categories, selectCategoryByName, selectCategoryById } = useCategoryState()
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<Inputs>()
+  const defaultCategory = selectCategoryById(defaultValues?.categoryId || '')
+
+  useEffect(() => {
+    let payload = {}
+    if (defaultValues && defaultCategory) {
+      payload = { ...defaultValues, categoryName: defaultCategory.name }
+    }
+    reset(payload)
+  }, [defaultValues, defaultCategory, reset])
 
   const submitHandler = (data: Inputs) => {
+
     const category = selectCategoryByName(data.categoryName)
-    if (!sheetId || !category) return
+    if (!category) {
+      return
+    }
     const payload = { ...data, sheetId, type, categoryId: category._id, categoryName: undefined }
     onSubmit(payload)
   }
@@ -55,6 +67,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultVal
           getOptionLabel={(option: ICategory) => option.name}
           isOptionEqualToValue={(option, value) => option._id === value._id}
           size="small"
+          defaultValue={defaultCategory}
           renderInput={params => (
             <TextField
               {...params}
@@ -72,8 +85,9 @@ export const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, defaultVal
                    minRows={2}/>
       </Box>
 
-      <Box display="flex" justifyContent="end">
+      <Box display="flex" flexDirection="row-reverse" justifyContent="space-between">
         <Button type="submit">{defaultValues ? 'Изменить' : 'Создать'}</Button>
+        {onCancel && <Button color="inherit" onClick={onCancel}>Отмена</Button>}
       </Box>
 
     </Box>

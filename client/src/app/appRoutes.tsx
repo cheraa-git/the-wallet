@@ -16,8 +16,8 @@ import { SheetLayout } from './sheet/sheetLayout'
 import { TransactionLayout } from './transaction/transactionLayout'
 import { RouteObjectWithProtected, useRoutesWithProtected } from '../hooks/useRoutesWithProtected'
 import { useAuthState } from '../store/auth/slice'
-import { LoaderLine } from '../common/Loader/loaderLine'
 import { CreateSheetPage } from './sheet/createSheetPage'
+import { LinearProgress } from '@mui/material'
 
 export const AppRoutes: FC = () => {
   const location = useLocation()
@@ -75,7 +75,7 @@ export const AppRoutes: FC = () => {
   const elements = useRoutesWithProtected(routes)
   return (
     <>
-      {loading ? <LoaderLine/> : elements}
+      {loading ? <LinearProgress/> : elements}
     </>
   )
 }

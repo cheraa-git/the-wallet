@@ -33,6 +33,17 @@ export const loadTransactions = (sheetId: string) => async (dispatch: AppDispatc
   }
 }
 
+export const getOneTransaction = (transactionId: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(setTransactionLoading(true))
+    const transaction = await transactionService.getOneById(transactionId)
+    dispatch(setTransactions([transaction]))
+    dispatch(setTransactionLoading(false))
+  } catch (error) {
+    errorHandler(error, dispatch)
+  }
+}
+
 
 export const createTransaction = (payload: CreateTransactionBody) => async (dispatch: AppDispatch) => {
   try {

@@ -3,8 +3,8 @@ import { ITransaction } from '../../../../common/types/types'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import { useCategoryState } from '../../store/category/slice'
 import { formatDateRelative } from '../../utils/format'
-import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import { NavLink } from 'react-router-dom'
 
 interface TransactionCardProps {
   transaction: ITransaction
@@ -25,7 +25,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction }) => {
                       width="max-content" alignSelf="center" mr={0}>
             {transaction.type === 'expense' ? '-' : '+'} {transaction.amount}
           </Typography>
-          <Typography variant="caption" color="text.secondary" width="max-content">
+          <Typography variant="caption" color="text.secondary" width="max-content" lineHeight={1.2}>
             {formatDateRelative(transaction.updatedAt)}
           </Typography>
         </Box>
@@ -36,13 +36,12 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction }) => {
           </Typography>
         </Box>
 
-        <Box display="flex" height="min-content" my="auto">
-          <IconButton>
-            <EditIcon/>
-          </IconButton>
-          <IconButton color="error">
-            <DeleteIcon/>
-          </IconButton>
+        <Box display="flex" height="min-content" my="auto" pl={2}>
+          <NavLink to={`/transaction/${transaction._id}/edit`}>
+            <IconButton>
+              <EditIcon fontSize="small"/>
+            </IconButton>
+          </NavLink>
         </Box>
 
       </Box>

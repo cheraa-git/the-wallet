@@ -10,7 +10,7 @@ export interface CategoryState {
 
 const initialState: CategoryState = {
   categories: [],
-  loading: true,
+  loading: false,
   error: null
 }
 

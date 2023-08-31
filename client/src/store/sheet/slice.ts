@@ -12,7 +12,7 @@ export interface SheetState {
 const initialState: SheetState = {
   sheets: [],
   categories: [],
-  loading: true,
+  loading: false,
   error: null
 }
 

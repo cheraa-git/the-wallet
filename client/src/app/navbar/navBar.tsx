@@ -2,8 +2,7 @@ import { FC } from 'react'
 import './styles.css'
 import { NavBarMenu } from './navBarMenu'
 import { Link } from 'react-router-dom'
-import { LoaderLine } from '../../common/Loader/loaderLine'
-import { Box, Typography } from '@mui/material'
+import { Box, LinearProgress, Typography } from '@mui/material'
 import AppLogo from '../../assets/app-logo.png'
 import { useApp } from '../../store/app/useState'
 
@@ -25,7 +24,7 @@ export const NavBar: FC = () => {
         </div>
       </div>
       <Box>
-        {loading && <LoaderLine/>}
+        {loading && <LinearProgress/>}
       </Box>
     </>
   )

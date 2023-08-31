@@ -2,6 +2,7 @@ import { api } from './httpService'
 import {
   CreateTransactionBody,
   CreateTransactionResponse,
+  GetOneTransactionResponse,
   GetTransactionsResponse,
   RemoveTransactionResponse,
   UpdateTransactionBody,
@@ -9,8 +10,13 @@ import {
 } from '../../../common/types/request/transactionRequestTypes'
 
 export const transactionService = {
-  get: async ($sheetId: string): Promise<GetTransactionsResponse> => {
-    const { data } = await api.get(`/transaction?sheetId=${$sheetId}`)
+  get: async (sheetId: string): Promise<GetTransactionsResponse> => {
+    const { data } = await api.get(`/transaction?sheetId=${sheetId}`)
+    return data
+  },
+
+  getOneById: async (transactionId: string): Promise<GetOneTransactionResponse> => {
+    const { data } = await api.get(`/transaction/${transactionId}`)
     return data
   },
 

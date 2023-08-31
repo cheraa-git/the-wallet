@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react'
-import { Box, Button, Card, CardContent, IconButton, LinearProgress, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CircularProgress, IconButton, LinearProgress, Typography } from '@mui/material'
 import { useAppDispatch } from '../../store/store'
-import { Spinner } from '../../common/Loader/spinner'
 import { formatDateRelative } from '../../utils/format'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
@@ -42,7 +41,7 @@ export const SheetPage: FC = () => {
     }
   }, [sheet, loading, navigate])
 
-  if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
+  if (loading) return <Box display="flex" justifyContent="center" mt={5}><CircularProgress/></Box>
   if (!sheet || !sheetId) return <></>
   return (
     <Box>
@@ -71,7 +70,11 @@ export const SheetPage: FC = () => {
           <Box display="flex">
             <Button color="success" onClick={() => setAddTransactionDialogOpen('income')}><AddIcon/> Доход</Button>
             <Button color="error" onClick={() => setAddTransactionDialogOpen('expense')}><RemoveIcon/> Расход</Button>
-            <AddTransactionDialog type={addTransactionDialogOpen} onClose={() => setAddTransactionDialogOpen(null)}/>
+            <AddTransactionDialog
+              type={addTransactionDialogOpen}
+              onClose={() => setAddTransactionDialogOpen(null)}
+              sheetId={sheetId}
+            />
 
             <Typography ml="auto" mr={3} variant="h5" fontWeight="lighter" color={totalAmount > 0 ? 'green' : 'error'}>
               {totalAmount.toLocaleString()} ₽
