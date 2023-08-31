@@ -54,7 +54,12 @@ export const useCategoryState = () => {
   const selectCategoryByName = (categoryName: string) => {
     return state.categories.find(c => c.name === categoryName)
   }
-  return { ...state, categories: sortedCategories, selectCategoryByName }
+
+  const selectCategoryById = (categoryId: string) => {
+    return state.categories.find(c => c._id === categoryId)
+  }
+
+  return { ...state, categories: sortedCategories, selectCategoryByName, selectCategoryById }
 }
 
 

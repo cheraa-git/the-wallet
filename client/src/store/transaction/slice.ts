@@ -53,6 +53,14 @@ export const TransactionReducer = transactionSlice.reducer
 
 export const useTransactionState = () => {
   const state = useAppSelector(state => state.transaction)
-  return { ...state }
+  const totalAmount = state.transactions.reduce((acc, transaction) => {
+    if (transaction.type === 'expense') {
+      acc -= transaction.amount
+    } else if (transaction.type === 'income') {
+      acc += transaction.amount
+    }
+    return acc
+  }, 0)
+  return { ...state, totalAmount }
 }
 
