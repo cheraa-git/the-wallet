@@ -28,7 +28,7 @@ export const SheetForm: FC<SheetFormProps> = ({ onSubmit, defaultValues }) => {
       </Box>
 
       <Box mb={2}>
-        <Typography>Название</Typography>
+        <Typography>Тип списка</Typography>
         <TextField fullWidth size="small" select
                    defaultValue={defaultValues?.type || 'cash'} {...register('type', { required: true })}
                    error={!!errors.type}>

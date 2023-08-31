@@ -50,7 +50,11 @@ export const CategoryReducer = categorySlice.reducer
 export const useCategoryState = () => {
   const state = useAppSelector(state => state.category)
   const sortedCategories = [...state.categories].sort((a, b) => a.name.localeCompare(b.name))
-  return { ...state, categories: sortedCategories }
+
+  const selectCategoryByName = (categoryName: string) => {
+    return state.categories.find(c => c.name === categoryName)
+  }
+  return { ...state, categories: sortedCategories, selectCategoryByName }
 }
 
 

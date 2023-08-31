@@ -1,6 +1,6 @@
-import { FC, useEffect } from 'react'
-import { Box, Button, Card, CardContent, IconButton, Typography } from '@mui/material'
-import { useAppDispatch, useAppSelector } from '../../store/store'
+import { FC, useEffect, useState } from 'react'
+import { Box, Button, Card, CardContent, IconButton, LinearProgress, Typography } from '@mui/material'
+import { useAppDispatch } from '../../store/store'
 import { Spinner } from '../../common/Loader/spinner'
 import { formatDateRelative } from '../../utils/format'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
@@ -9,20 +9,30 @@ import { SheetMenu } from './sheetMenu'
 import { loadCategories } from '../../store/category/actions'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
+import { loadTransactions } from '../../store/transaction/actions'
+import { AddTransactionDialog } from '../transaction/addTransactionDialog'
+import { TransactionType } from '../../../../common/types/types'
+import { useSheetState } from '../../store/sheet/slice'
+import { useTransactionState } from '../../store/transaction/slice'
+import { useCategoryState } from '../../store/category/slice'
 
 
 export const SheetPage: FC = () => {
   const dispatch = useAppDispatch()
   const { sheetId } = useParams()
   const navigate = useNavigate()
-  const { sheets, loading } = useAppSelector(state => state.sheet)
+  const { sheets, loading } = useSheetState()
+  const { loading: transactionLoading } = useTransactionState()
+  const { loading: categoryLoading } = useCategoryState()
   const sheet = sheets?.find(s => s._id === sheetId)
   const totalAmount = 1234432
+  const [addTransactionDialogOpen, setAddTransactionDialogOpen] = useState<TransactionType | null>(null)
 
 
   useEffect(() => {
     if (sheetId) {
       dispatch(loadCategories(sheetId))
+      dispatch(loadTransactions(sheetId))
     }
   }, [sheetId, dispatch])
 
@@ -33,7 +43,7 @@ export const SheetPage: FC = () => {
   }, [sheet, loading, navigate])
 
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><Spinner/></Box>
-  if (!sheet) return <></>
+  if (!sheet || !sheetId) return <></>
   return (
     <Card sx={{ my: 2 }}>
       <Box display="flex" justifyContent="space-between" mx={2}>
@@ -58,13 +68,16 @@ export const SheetPage: FC = () => {
           {sheet.description}
         </Typography>
         <Box display="flex">
-          <Button color="success"><AddIcon/> Доход</Button>
-          <Button color="error"><RemoveIcon/> Расход</Button>
+          <Button color="success" onClick={() => setAddTransactionDialogOpen('income')}><AddIcon/> Доход</Button>
+          <Button color="error" onClick={() => setAddTransactionDialogOpen('expense')}><RemoveIcon/> Расход</Button>
+          <AddTransactionDialog type={addTransactionDialogOpen} onClose={() => setAddTransactionDialogOpen(null)}/>
+
           <Typography ml="auto" mr={3} variant="h5" fontWeight="lighter" color={totalAmount > 0 ? 'green' : 'error'}>
             {totalAmount.toLocaleString()} ₽
           </Typography>
         </Box>
       </CardContent>
+      {(transactionLoading || categoryLoading) && <LinearProgress/>}
     </Card>
   )
 }

@@ -51,7 +51,7 @@ export const {
 
 export const TransactionReducer = transactionSlice.reducer
 
-export const userTransactionState = () => {
+export const useTransactionState = () => {
   const state = useAppSelector(state => state.transaction)
   return { ...state }
 }
