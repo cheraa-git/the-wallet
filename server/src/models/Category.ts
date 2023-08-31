@@ -4,7 +4,6 @@ const schema = new Schema({
   sheetId: { type: Schema.Types.ObjectId, ref: 'Sheet' },
   name: { type: String, required: true },
   type: { type: String, enum: ['both', 'income', 'expense'], required: true },
-  icon: String
 }, {
   timestamps: false
 })

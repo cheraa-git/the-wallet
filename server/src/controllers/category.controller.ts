@@ -24,7 +24,7 @@ class CategoryController {
     }
   }
 
-  createCategory: ControllerHandler<CreateCategoryBody, CreateCategoryResponse> = async (req, res) => {
+  create: ControllerHandler<CreateCategoryBody, CreateCategoryResponse> = async (req, res) => {
     try {
       if (validationHandler(req, res)) return
       const newCategory: ICategory = (await Category.create(req.body)).toJSON()
@@ -34,29 +34,16 @@ class CategoryController {
     }
   }
 
-  updateCategory: ControllerHandler<UpdateCategoryBody, UpdateCategoryResponse> = async (req, res) => {
+  update: ControllerHandler<UpdateCategoryBody, UpdateCategoryResponse> = async (req, res) => {
     try {
       if (validationHandler(req, res)) return
       const ownerUserId = (await Sheet.findOne({ _id: req.body.sheetId }))?.userId?.toJSON()
-      if (req.user?._id !== ownerUserId) return res.status(500).send({ message: ErrorMessages.UNAUTHORIZED })
+      if (req.user?._id !== ownerUserId) return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
       const updatedCategory = await Category.findByIdAndUpdate(req.body._id, req.body, { new: true })
       res.send(updatedCategory?.toJSON())
     } catch (error) {
       res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
     }
-  }
-
-  removeCategory: ControllerHandler = async (req, res) => {
-    try {
-      if (validationHandler(req, res)) return
-      const categoryId = req.params.categoryId
-      const removingCategory = await Category.findOne({ _id: categoryId })
-      const ownerUserId = (await Sheet.findOne({ _id: removingCategory?.sheetId }))?.userId?.toJSON()
-      if (req.user?._id !== ownerUserId) return res.status(500).send({ message: ErrorMessages.UNAUTHORIZED })
-    } catch (error) {
-
-    }
-
   }
 }
 

@@ -12,12 +12,11 @@ categoryRouter.post('/', [
   check('sheetId', ErrorMessages.INVALID_DATA).exists(),
   check('name', ErrorMessages.INVALID_DATA).exists(),
   check('type', ErrorMessages.INVALID_DATA).exists()
-], categoryController.createCategory)
+], categoryController.create)
 categoryRouter.patch('/', [
   authMiddleware,
   check('_id', ErrorMessages.INVALID_DATA).exists(),
   check('sheetId', ErrorMessages.INVALID_DATA).exists()
-], categoryController.updateCategory)
-categoryRouter.delete('/:categoryId', authMiddleware, categoryController.removeCategory)
+], categoryController.update)
 
 
