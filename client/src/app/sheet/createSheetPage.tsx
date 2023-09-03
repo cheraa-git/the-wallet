@@ -5,14 +5,21 @@ import { useAppDispatch } from '../../store/store'
 import { createSheet } from '../../store/sheet/actions'
 import { SheetForm } from './sheetForm'
 import { CreateSheetBody } from '../../../../common/types/request/sheetRequestTypes'
+import { useSheetState } from '../../store/sheet/slice'
+import { useSnackbar } from 'notistack'
 
 
 export const CreateSheetPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { sheets } = useSheetState()
+  const { enqueueSnackbar } = useSnackbar()
 
 
   const handleSubmit = (data: CreateSheetBody) => {
+    if (sheets.find(s => s.title === data.title)) {
+      return enqueueSnackbar('Список с таким именем уже существует', { variant: 'warning' })
+    }
     dispatch(createSheet(data))
       .then(() => navigate('/sheets'))
   }

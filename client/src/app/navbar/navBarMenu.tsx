@@ -3,7 +3,7 @@ import { Box, Divider, IconButton, Menu, MenuItem, Typography } from '@mui/mater
 import { Link } from 'react-router-dom'
 import { MenuSettings } from './menuSettings'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import AddIcon from '@mui/icons-material/Add'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -53,7 +53,7 @@ export const NavBarMenu: FC = () => {
 
           <Link to="/sheets" onClick={handleClose}>
             <MenuItem>
-              <AddIcon color="primary"/>
+              <AccountBalanceWalletIcon color="primary"/>
               <Typography ml={2}>списки</Typography>
             </MenuItem>
           </Link>

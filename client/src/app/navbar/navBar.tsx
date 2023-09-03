@@ -13,11 +13,12 @@ export const NavBar: FC = () => {
       <div className={`navbar ${isDark && 'navbar_dark'} border-b`}>
         <div>
           <Box minWidth={50} display="flex">
-            <Link to="/" className="flex">
+            <Link to="/sheets" className="flex">
               <img src={AppLogo} alt="collections-logo" width={50} height={50}/>
               <Typography variant="h5" alignSelf="center" hidden={window.innerWidth < 500}>The wallet</Typography>
             </Link>
           </Box>
+
           <Box ml="auto" display="flex">
             <NavBarMenu/>
           </Box>

@@ -1,6 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import { FC } from 'react'
-import { MainPage } from './main/mainPage'
 import { AuthLayout } from './auth/authLayout'
 import { LoginPage } from './auth/loginPage'
 import { SignupPage } from './auth/signupPage'
@@ -9,7 +8,6 @@ import { SheetPage } from './sheet/sheetPage'
 import { SheetsPage } from './sheet/sheetsPage'
 import { EditSheetPage } from './sheet/editSheetPage'
 import { EditTransactionPage } from './transaction/editTransactionPage'
-import { AboutPage } from './about/aboutPage'
 import { UserLayout } from './user/userLayout'
 import { SheetLayout } from './sheet/sheetLayout'
 import { TransactionLayout } from './transaction/transactionLayout'
@@ -23,9 +21,6 @@ export const AppRoutes: FC = () => {
   const { isAuth, loading } = useAuthState()
 
   const routes: RouteObjectWithProtected[] = [
-    {
-      path: '/', protected: { navigate: '/about', accessibility: isAuth }, element: <MainPage/>
-    },
     {
       path: 'auth', element: <AuthLayout/>,
       protected: { navigate: location.state?.referrer?.pathname || '/', accessibility: !isAuth },
@@ -65,8 +60,7 @@ export const AppRoutes: FC = () => {
         { path: '*', element: <Navigate to="edit"/> }
       ]
     },
-    { path: 'about', element: <AboutPage/> },
-    { path: '*', element: <Navigate to="/"/> }
+    { path: '*', element: <Navigate to="/sheets"/> }
   ]
 
   const elements = useRoutesWithProtected(routes)

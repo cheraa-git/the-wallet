@@ -58,9 +58,12 @@ export const EditTransactionPage: FC = () => {
             <Typography fontSize={16} color="text.secondary">
               Создано: {formatDateRelative(transaction.createdAt)}
             </Typography>
-            <Typography fontSize={16} color="text.secondary">
-              Изменено: {formatDateRelative(transaction.updatedAt)}
-            </Typography>
+            {
+              transaction.createdAt !== transaction.updatedAt &&
+              <Typography fontSize={16} color="text.secondary">
+                Изменено: {formatDateRelative(transaction.updatedAt)}
+              </Typography>
+            }
           </Box>
         </Box>
         <Box display="flex" justifyContent="end">
