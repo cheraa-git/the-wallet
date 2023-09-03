@@ -1,6 +1,9 @@
 import { api } from './httpService'
 import {
   AutologinResponse,
+  EditProfileAvatarResponse,
+  EditProfileInfoBody,
+  EditProfileInfoResponse,
   LoginBody,
   LoginResponse,
   RefreshTokenBody,
@@ -24,6 +27,14 @@ export const authService = {
   },
   autologin: async (): Promise<AutologinResponse> => {
     const { data } = await api.post('/auth/autologin', { headers: { 'ignore-interceptors': 'ignore' } })
+    return data
+  },
+  editAvatar: async (avatar: string): Promise<EditProfileAvatarResponse> => {
+    const { data } = await api.patch('/auth/profile_avatar', { avatar })
+    return data
+  },
+  editInfo: async (userData: EditProfileInfoBody): Promise<EditProfileInfoResponse> => {
+    const { data } = await api.patch('/auth/profile_info', userData)
     return data
   }
 }

@@ -7,12 +7,16 @@ export interface AuthState {
   currentUser: IUser | null
   loading: boolean
   error: string | null
+  profileLoading: boolean
+  profileError: string | null
 }
 
 const initialState: AuthState = {
   currentUser: null,
   loading: true,
-  error: null
+  error: null,
+  profileLoading: false,
+  profileError: null
 }
 
 export const authSlice = createSlice({
@@ -31,18 +35,43 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.currentUser = null
       localStorageService.removeAuthData()
+    },
+    setProfileLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.profileLoading = payload
+    },
+    setProfileError: (state, { payload }: PayloadAction<string | null>) => {
+      state.profileError = payload
+    },
+    setProfileAvatar: (state, { payload }: PayloadAction<string>) => {
+      if (state.currentUser) {
+        state.currentUser.avatar = payload
+      }
+    },
+    setProfileInfo: (state, { payload }: PayloadAction<Partial<IUser>>) => {
+      if (state.currentUser) {
+        state.currentUser = { ...state.currentUser, ...payload }
+      }
     }
   }
 })
 
 
-export const { setAuthLoading, setCurrentUser, setAuthError, logout } = authSlice.actions
+export const {
+  setAuthLoading,
+  setCurrentUser,
+  setAuthError,
+  logout,
+  setProfileLoading,
+  setProfileError,
+  setProfileAvatar,
+  setProfileInfo
+} = authSlice.actions
 
 export const AuthReducer = authSlice.reducer
 
 
 export const useAuthState = () => {
   const state = useAppSelector(state => state.auth)
-  const isAuth = Boolean(state.currentUser?._id && state.currentUser.email)
+  const isAuth = Boolean(state.currentUser && state.currentUser?._id && state.currentUser.email)
   return { ...state, isAuth }
 }

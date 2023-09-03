@@ -5,7 +5,6 @@ import { AuthLayout } from './auth/authLayout'
 import { LoginPage } from './auth/loginPage'
 import { SignupPage } from './auth/signupPage'
 import { UserPage } from './user/userPage'
-import { EditUserPage } from './user/editUserPage'
 import { SheetPage } from './sheet/sheetPage'
 import { SheetsPage } from './sheet/sheetsPage'
 import { EditSheetPage } from './sheet/editSheetPage'
@@ -42,8 +41,6 @@ export const AppRoutes: FC = () => {
       protected: { navigate: '/auth/login', accessibility: isAuth },
       children: [
         { path: '', element: <UserPage/> },
-        { path: 'edit', element: <EditUserPage/> },
-        { path: '*', element: <Navigate to=".."/> }
       ]
     },
     {

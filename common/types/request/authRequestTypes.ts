@@ -32,4 +32,17 @@ export type RefreshTokenResponse = Tokens
 export type AutologinBody = {}
 export type AutologinResponse = IUser
 
+export interface EditProfileInfoBody extends Partial<IUser> {
+  _id: string
+  oldPassword: string
+  password?: string
+}
 
+export type EditProfileInfoResponse = IUser
+
+
+export interface EditProfileAvatarBody {
+  avatar: string
+}
+
+export type EditProfileAvatarResponse = EditProfileAvatarBody
