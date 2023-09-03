@@ -22,7 +22,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { useCategoryState } from '../../store/category/slice'
 
 export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
-  const { transactions: defaultTransactions } = useTransactionState()
+  const { transactions: defaultTransactions } = useTransactionState(sheetId)
   const { categories } = useCategoryState()
   const [addTransactionDialogOpen, setAddTransactionDialogOpen] = useState<TransactionType | null>(null)
   const [sortBy, setSortBy] = useState<{ path: string, order: 'asc' | 'desc' }>({ path: 'createdAt', order: 'desc' })

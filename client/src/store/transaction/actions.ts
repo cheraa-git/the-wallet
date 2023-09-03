@@ -22,10 +22,10 @@ const errorHandler = (error: any, dispatch: AppDispatch) => {
 }
 
 
-export const loadTransactions = (sheetId: string) => async (dispatch: AppDispatch) => {
+export const loadTransactions = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(setTransactionLoading(true))
-    const transactions = await transactionService.get(sheetId)
+    const transactions = await transactionService.get()
     dispatch(setTransactions(transactions))
     dispatch(setTransactionLoading(false))
   } catch (error) {

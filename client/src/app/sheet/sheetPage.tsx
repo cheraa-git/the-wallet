@@ -16,8 +16,6 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { SheetMenu } from './sheetMenu'
 import { loadCategories } from '../../store/category/actions'
-
-import { loadTransactions } from '../../store/transaction/actions'
 import { useSheetState } from '../../store/sheet/slice'
 import { useTransactionState } from '../../store/transaction/slice'
 import { useCategoryState } from '../../store/category/slice'
@@ -30,7 +28,7 @@ export const SheetPage: FC = () => {
   const { sheetId } = useParams()
   const navigate = useNavigate()
   const { sheets, loading } = useSheetState()
-  const { loading: transactionLoading, totalAmount } = useTransactionState()
+  const { loading: transactionLoading, totalAmount } = useTransactionState(sheetId)
   const { loading: categoryLoading } = useCategoryState()
   const sheet = sheets?.find(s => s._id === sheetId)
 
@@ -39,7 +37,6 @@ export const SheetPage: FC = () => {
   useEffect(() => {
     if (sheetId) {
       dispatch(loadCategories(sheetId))
-      dispatch(loadTransactions(sheetId))
     }
   }, [sheetId, dispatch])
 
@@ -79,7 +76,7 @@ export const SheetPage: FC = () => {
             <Typography color="text.secondary">
               {sheet.description}
             </Typography>
-            <Typography ml="auto" mr={3} variant="h5" fontWeight="lighter" color={totalAmount > 0 ? 'green' : 'error'}>
+            <Typography ml="auto" mr={3} variant="h5" fontWeight="lighter" color={totalAmount >= 0 ? 'green' : 'error'}>
               {totalAmount.toLocaleString()} ₽
             </Typography>
           </CardContent>

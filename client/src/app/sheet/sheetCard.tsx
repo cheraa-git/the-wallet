@@ -5,9 +5,11 @@ import { ISheet } from '../../../../common/types/types'
 import { AmountStyled } from '../../common/amountStyled'
 import { Box, Chip, Typography } from '@mui/material'
 import { SheetTypeLabel } from '../../constants/constants'
+import { useTransactionState } from '../../store/transaction/slice'
 
 export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
-  const totalAmount = 45323
+  const { totalAmount, expenseAmount, expenseCount, incomeAmount, incomeCount } = useTransactionState(sheet._id)
+
   return (
     <Box mb={2}>
       <Link to={`/sheets/${sheet._id}`}>
@@ -21,12 +23,16 @@ export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
           </Box>
           <div>
             <Box display="flex" justifyContent="space-between" mb={1}>
-              <AmountStyled amount={412344} fontSize={14} mr={1}/>
-              <Typography fontSize={14} bgcolor="green" color="white" fontWeight="bold" px={1}>23</Typography>
+              <AmountStyled amount={incomeAmount} fontSize={14} mr={1}/>
+              <Typography fontSize={14} bgcolor="green" color="white" fontWeight="bold" px={1}>
+                {incomeCount}
+              </Typography>
             </Box>
             <Box display="flex" justifyContent="space-between" mb={1}>
-              <AmountStyled amount={-412344} fontSize={14} mr={1}/>
-              <Typography fontSize={14} bgcolor="#ff6b6b" color="white" fontWeight="bold" px={1}>23</Typography>
+              <AmountStyled amount={expenseAmount} fontSize={14} mr={1}/>
+              <Typography fontSize={14} bgcolor="#ff6b6b" color="white" fontWeight="bold" px={1}>
+                {expenseCount}
+              </Typography>
             </Box>
           </div>
         </div>

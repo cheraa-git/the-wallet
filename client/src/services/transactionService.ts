@@ -10,8 +10,8 @@ import {
 } from '../../../common/types/request/transactionRequestTypes'
 
 export const transactionService = {
-  get: async (sheetId: string): Promise<GetTransactionsResponse> => {
-    const { data } = await api.get(`/transaction?sheetId=${sheetId}`)
+  get: async (): Promise<GetTransactionsResponse> => {
+    const { data } = await api.get('/transaction')
     return data
   },
 

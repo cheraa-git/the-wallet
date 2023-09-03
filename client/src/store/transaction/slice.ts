@@ -51,16 +51,30 @@ export const {
 
 export const TransactionReducer = transactionSlice.reducer
 
-export const useTransactionState = () => {
-  const state = useAppSelector(state => state.transaction)
-  const totalAmount = state.transactions.reduce((acc, transaction) => {
+export const useTransactionState = (sheetId?: string) => {
+  const state = { ...useAppSelector(state => state.transaction) }
+
+  if (sheetId) {
+    state.transactions = state.transactions.filter(t => t.sheetId === sheetId)
+  }
+  let totalAmount = 0
+  let expenseAmount = 0
+  let expenseCount = 0
+  let incomeAmount = 0
+  let incomeCount = 0
+
+  state.transactions.forEach(transaction => {
     if (transaction.type === 'expense') {
-      acc -= transaction.amount
+      totalAmount -= transaction.amount
+      expenseAmount -= transaction.amount
+      expenseCount++
     } else if (transaction.type === 'income') {
-      acc += transaction.amount
+      totalAmount += transaction.amount
+      incomeAmount += transaction.amount
+      incomeCount++
     }
-    return acc
-  }, 0)
-  return { ...state, totalAmount }
+  })
+
+  return { ...state, totalAmount, expenseAmount, expenseCount, incomeAmount, incomeCount }
 }
 
