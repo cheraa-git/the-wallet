@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './styles.css'
 import { ISheet } from '../../../../common/types/types'
 import { AmountStyled } from '../../common/amountStyled'
-import { Box, Chip, Typography } from '@mui/material'
+import { Box, Chip, Paper, Typography } from '@mui/material'
 import { SheetTypeLabel } from '../../constants/constants'
 import { useTransactionState } from '../../store/transaction/slice'
 
@@ -13,7 +13,7 @@ export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
   return (
     <Box mb={2}>
       <Link to={`/sheets/${sheet._id}`}>
-        <div className="sheet-card">
+        <Paper className="sheet-card">
           <Box justifyContent="center" display="flex" flexDirection="column">
             <Box display="flex">
               <Typography className="capitalize-first" mr={2} alignSelf="center">{sheet.title}</Typography>
@@ -35,7 +35,7 @@ export const SheetCard: FC<{ sheet: ISheet }> = ({ sheet }) => {
               </Typography>
             </Box>
           </div>
-        </div>
+        </Paper>
       </Link>
     </Box>
   )

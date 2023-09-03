@@ -92,7 +92,7 @@ export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
         sheetId={sheetId}
       />
       {transactions.map(transaction => <TransactionCard key={transaction._id} transaction={transaction}/>)}
-      <Box display="flex" justifyContent="end">
+      <Box display="flex" justifyContent="end" mb={3}>
         {
           pageCount > 1 &&
           <Pagination count={pageCount} page={page} onChange={(e, page) => setPage(page)}/>
