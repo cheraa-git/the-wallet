@@ -7,6 +7,7 @@ import {
   ButtonGroup,
   Container,
   MenuItem,
+  Pagination,
   Select,
   SelectChangeEvent,
   ToggleButton,
@@ -20,6 +21,7 @@ import _ from 'lodash'
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import { useCategoryState } from '../../store/category/slice'
+import { TRANSACTIONS_PER_PAGE } from '../../constants/constants'
 
 export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
   const { transactions: defaultTransactions } = useTransactionState(sheetId)
@@ -27,6 +29,7 @@ export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
   const [addTransactionDialogOpen, setAddTransactionDialogOpen] = useState<TransactionType | null>(null)
   const [sortBy, setSortBy] = useState<{ path: string, order: 'asc' | 'desc' }>({ path: 'createdAt', order: 'desc' })
   const [categoryFilter, setCategoryFilter] = useState('all')
+  const [page, setPage] = useState(1)
 
   const getFilteredAndSortedTransactions = () => {
     const sortedTransactions: ITransaction[] = _.orderBy(defaultTransactions, [sortBy.path], [sortBy.order])
@@ -57,7 +60,9 @@ export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
     setCategoryFilter(event.target.value)
   }
 
-  const transactions = getFilteredAndSortedTransactions()
+  let transactions = getFilteredAndSortedTransactions()
+  const pageCount = Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE)
+  transactions = transactions.slice((page - 1) * TRANSACTIONS_PER_PAGE, (page - 1) * TRANSACTIONS_PER_PAGE + TRANSACTIONS_PER_PAGE)
 
   return (
     <Container maxWidth="md">
@@ -87,6 +92,12 @@ export const Transactions: FC<{ sheetId: string }> = ({ sheetId }) => {
         sheetId={sheetId}
       />
       {transactions.map(transaction => <TransactionCard key={transaction._id} transaction={transaction}/>)}
+      <Box display="flex" justifyContent="end">
+        {
+          pageCount > 1 &&
+          <Pagination count={pageCount} page={page} onChange={(e, page) => setPage(page)}/>
+        }
+      </Box>
     </Container>
   )
 }

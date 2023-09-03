@@ -17,3 +17,4 @@ export enum SheetTypeLabel {
   deposit='Вклад',
 }
 export const MAX_IMAGE_SIZE = 10 * 1024 * 1024
+export const TRANSACTIONS_PER_PAGE = 5
