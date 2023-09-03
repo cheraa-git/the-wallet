@@ -16,3 +16,16 @@ export const formatDateRelative = (date: string) => {
     return dayjs(date).format('DD.MM.YY в HH:mm')
   }
 }
+
+export const formatFileSize = (bytes: number) => {
+  let postfix = 'B'
+  if (bytes > 1024) {
+    bytes = bytes / 1024
+    postfix = 'KB'
+  }
+  if (bytes > 1024) {
+    bytes = bytes / 1024
+    postfix = 'MB'
+  }
+  return `${Math.round(bytes)}${postfix}`
+}
