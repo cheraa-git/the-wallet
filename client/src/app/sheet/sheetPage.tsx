@@ -1,6 +1,7 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
@@ -14,13 +15,14 @@ import { useAppDispatch } from '../../store/store'
 import { formatDateRelative } from '../../utils/format'
 import { NavLink, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
-import { SheetMenu } from './sheetMenu'
+import EditIcon from '@mui/icons-material/Edit'
 import { loadCategories } from '../../store/category/actions'
 import { useSheetState } from '../../store/sheet/slice'
 import { useTransactionState } from '../../store/transaction/slice'
 import { useCategoryState } from '../../store/category/slice'
 import { Transactions } from '../transaction/transactions'
 import { SheetTypeLabel } from '../../constants/constants'
+import { EditCategoriesDialog } from '../category/editCategoriesDialog'
 
 
 export const SheetPage: FC = () => {
@@ -30,6 +32,8 @@ export const SheetPage: FC = () => {
   const { loading: transactionLoading, totalAmount } = useTransactionState(sheetId)
   const { loading: categoryLoading } = useCategoryState()
   const sheet = sheets?.find(s => s._id === sheetId)
+
+  const [categoryDialogOpen, setCategoryDialogOpen] = useState(false)
 
   useEffect(() => {
     if (sheetId) {
@@ -54,13 +58,17 @@ export const SheetPage: FC = () => {
                   {sheet.title}
                 </Typography>
                 <Chip label={SheetTypeLabel[sheet.type]} size="small"/>
+                <NavLink to="edit">
+                  <IconButton>
+                    <EditIcon/>
+                  </IconButton>
+                </NavLink>
               </Box>
             </Box>
             <Box display="flex">
               <Typography variant="body2" alignSelf="center" color="text.secondary">
                 Список создан {formatDateRelative(sheet.createdAt)}
               </Typography>
-              <SheetMenu/>
             </Box>
           </Box>
 
@@ -68,9 +76,13 @@ export const SheetPage: FC = () => {
             <Typography color="text.secondary">
               {sheet.description}
             </Typography>
-            <Typography ml="auto" mr={3} variant="h5" fontWeight="lighter" color={totalAmount >= 0 ? 'green' : 'error'}>
-              {totalAmount.toLocaleString()} ₽
-            </Typography>
+            <Box display="flex" justifyContent="space-between">
+              <Typography mr={3} variant="h5" fontWeight="lighter" color={totalAmount >= 0 ? 'green' : 'error'}>
+                {totalAmount.toLocaleString()} ₽
+              </Typography>
+              <Button onClick={() => setCategoryDialogOpen(true)}>Категории</Button>
+              <EditCategoriesDialog open={categoryDialogOpen} onClose={() => setCategoryDialogOpen(false)}/>
+            </Box>
           </CardContent>
         </Container>
         {(transactionLoading || categoryLoading) && <LinearProgress/>}
