@@ -26,3 +26,6 @@ authRouter.post('/login', [
 authRouter.post('/refresh_token', authController.refreshToken)
 
 authRouter.post('/autologin', authMiddleware, authController.autologin)
+
+authRouter.patch('/profile_info', authMiddleware, authController.editProfileInfo)
+authRouter.patch('/profile_avatar', authMiddleware, authController.editProfileAvatar)
