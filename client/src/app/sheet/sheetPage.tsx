@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useAppDispatch } from '../../store/store'
 import { formatDateRelative } from '../../utils/format'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { SheetMenu } from './sheetMenu'
 import { loadCategories } from '../../store/category/actions'
@@ -26,13 +26,10 @@ import { SheetTypeLabel } from '../../constants/constants'
 export const SheetPage: FC = () => {
   const dispatch = useAppDispatch()
   const { sheetId } = useParams()
-  const navigate = useNavigate()
   const { sheets, loading } = useSheetState()
   const { loading: transactionLoading, totalAmount } = useTransactionState(sheetId)
   const { loading: categoryLoading } = useCategoryState()
   const sheet = sheets?.find(s => s._id === sheetId)
-
-
 
   useEffect(() => {
     if (sheetId) {
@@ -40,14 +37,9 @@ export const SheetPage: FC = () => {
     }
   }, [sheetId, dispatch])
 
-  useEffect(() => {
-    if (!loading && !sheet) {
-      navigate('/sheets')
-    }
-  }, [sheet, loading, navigate])
-
   if (loading) return <Box display="flex" justifyContent="center" mt={5}><CircularProgress/></Box>
   if (!sheet || !sheetId) return <></>
+
   return (
     <Box>
       <Card sx={{ my: 2 }}>

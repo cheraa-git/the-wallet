@@ -15,7 +15,7 @@ export const UserPage: FC = () => {
     if (!profileLoading && !currentUser) {
       navigate('/auth/login')
     }
-  }, [])
+  }, [profileLoading, currentUser, navigate])
 
   if (profileLoading) return <Box display="flex" justifyContent="center" mt={3}><CircularProgress/></Box>
   if (!currentUser) return <></>
