@@ -6,7 +6,7 @@ import { ErrorMessages } from '../../../common/errorMessages'
 
 export const transactionRouter = Router({ mergeParams: true })
 
-transactionRouter.get('/', authMiddleware, transactionController.getBySheetId)
+transactionRouter.get('/', authMiddleware, transactionController.getByUserId)
 
 transactionRouter.post('/', [
   authMiddleware,

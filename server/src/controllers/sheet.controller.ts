@@ -12,6 +12,8 @@ import {
 import { ErrorMessages } from '../../../common/errorMessages'
 import { Sheet } from '../models/Sheet'
 import { ISheet } from '../../../common/types/types'
+import { Transaction } from '../models/Transaction'
+import { Category } from '../models/Category'
 
 class SheetController {
   getAll: ControllerHandler<GetSheetsBody, GetSheetsResponse> = async (req, res) => {
@@ -58,6 +60,8 @@ class SheetController {
         return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
       }
       await removingSheet.deleteOne()
+      await Transaction.deleteMany({ sheetId })
+      await Category.deleteMany({ sheetId })
       res.send({ _id: sheetId })
     } catch (error) {
       res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })

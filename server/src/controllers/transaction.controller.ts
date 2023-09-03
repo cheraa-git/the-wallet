@@ -15,15 +15,11 @@ import { ITransaction } from '../../../common/types/types'
 import { validationHandler } from '../utils/validation'
 
 class TransactionController {
-  getBySheetId: ControllerHandler<{}, GetTransactionsResponse> = async (req, res) => {
+  getByUserId: ControllerHandler<{}, GetTransactionsResponse> = async (req, res) => {
     try {
-      const sheetId = req.query.sheetId
-      if (!sheetId) return res.status(400).send({ message: ErrorMessages.INVALID_DATA })
-
-      const ownerUserId = (await Sheet.findOne({ _id: sheetId }))?.userId?.toJSON()
-      if (req.user?._id !== ownerUserId) return res.status(401).send({ message: ErrorMessages.UNAUTHORIZED })
-
-      const transactions = await Transaction.find({ sheetId }) as ITransaction[]
+      const userId = req.user?._id
+      const sheetsIds = (await Sheet.find({ userId }))?.map(sheet => sheet._id.toString())
+      const transactions = await Transaction.find({ sheetId: sheetsIds }) as ITransaction[]
       res.send(transactions)
     } catch (error) {
       res.status(500).send({ message: ErrorMessages.UNEXPECTED_ERROR, data: error })
